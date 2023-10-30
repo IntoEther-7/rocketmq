@@ -26,6 +26,9 @@ import org.apache.rocketmq.test.util.RandomUtil;
 import org.apache.rocketmq.test.util.data.collect.DataCollector;
 import org.apache.rocketmq.test.util.data.collect.DataCollectorManager;
 
+/**
+ * 消息收集
+ */
 public abstract class MQCollector {
     protected DataCollector msgBodys = null;
     protected DataCollector originMsgs = null;

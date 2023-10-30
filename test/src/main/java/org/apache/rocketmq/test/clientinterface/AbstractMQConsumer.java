@@ -19,6 +19,9 @@ package org.apache.rocketmq.test.clientinterface;
 
 import org.apache.rocketmq.test.listener.AbstractListener;
 
+/**
+ * 消费者
+ */
 public abstract class AbstractMQConsumer implements MQConsumer {
     protected AbstractListener listener = null;
     protected String nsAddr = null;

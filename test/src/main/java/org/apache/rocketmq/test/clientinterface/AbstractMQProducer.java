@@ -26,6 +26,9 @@ import org.apache.rocketmq.test.sendresult.ResultWrapper;
 import org.apache.rocketmq.test.util.RandomUtil;
 import org.apache.rocketmq.test.util.TestUtil;
 
+/**
+ * 生产者
+ */
 public abstract class AbstractMQProducer extends MQCollector implements MQProducer {
     protected String topic = null;
 

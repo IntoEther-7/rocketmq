@@ -61,6 +61,19 @@ import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
  * <p>
  * <strong>Thread Safety:</strong> After initialization, the instance can be regarded as thread-safe.
  * </p>
+ *
+ * 在大多数场景下，这是最推荐的消费消息的类。
+ * </p>
+ *
+ * 从技术上讲，这个推送客户端实际上是底层拉取服务的包装器。 具体来说，当从代理拉取的消息到达时，它会粗略地调用注册的回调处理程序来提供消息。
+ * </p>
+ *
+ * 有关典型用法，请参阅示例模块中的快速入门/消费者。
+ * </p>
+ *
+ * <p>
+ * <strong>线程安全：</strong>初始化后，实例可视为线程安全的。
+ * </p>
  */
 public class DefaultMQPushConsumer extends ClientConfig implements MQPushConsumer {
 

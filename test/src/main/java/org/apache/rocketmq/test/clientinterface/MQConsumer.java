@@ -17,12 +17,27 @@
 
 package org.apache.rocketmq.test.clientinterface;
 
+/**
+ * MQ消费者
+ */
 public interface MQConsumer {
+    /**
+     * 消费任务
+     */
     void create();
 
+    /**
+     * 消费任务
+     */
     void create(boolean useTLS);
 
+    /**
+     * 开始消费
+     */
     void start();
 
+    /**
+     * 结束消费
+     */
     void shutdown();
 }

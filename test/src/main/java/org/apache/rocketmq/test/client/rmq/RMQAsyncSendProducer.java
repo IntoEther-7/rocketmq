@@ -36,6 +36,9 @@ import org.apache.rocketmq.test.sendresult.ResultWrapper;
 import org.apache.rocketmq.test.util.RandomUtil;
 import org.apache.rocketmq.test.util.TestUtil;
 
+/**
+ * 异步发送
+ */
 public class RMQAsyncSendProducer extends AbstractMQProducer {
     private static Logger logger = LoggerFactory
         .getLogger(RMQAsyncSendProducer.class);

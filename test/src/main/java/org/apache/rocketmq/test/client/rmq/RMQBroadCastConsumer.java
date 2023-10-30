@@ -22,6 +22,9 @@ import org.apache.rocketmq.logging.org.slf4j.Logger;
 import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
 import org.apache.rocketmq.test.listener.AbstractListener;
 
+/**
+ * 广播发送
+ */
 public class RMQBroadCastConsumer extends RMQNormalConsumer {
     private static Logger logger = LoggerFactory.getLogger(RMQBroadCastConsumer.class);
 

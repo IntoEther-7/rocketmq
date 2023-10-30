@@ -19,12 +19,30 @@ package org.apache.rocketmq.test.clientinterface;
 
 import org.apache.rocketmq.test.sendresult.ResultWrapper;
 
+/**
+ * MQ生产者
+ */
 public interface MQProducer {
+    /**
+     * 发送消息
+     * @param msg 消息
+     * @param arg 附加字段
+     * @return 结果
+     */
     ResultWrapper send(Object msg, Object arg);
 
+    /**
+     * 设置Debug
+     */
     void setDebug();
 
+    /**
+     * 设置启动
+     */
     void setRun();
 
+    /**
+     * 终止生产
+     */
     void shutdown();
 }

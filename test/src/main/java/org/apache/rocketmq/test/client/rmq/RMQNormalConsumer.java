@@ -25,6 +25,9 @@ import org.apache.rocketmq.test.clientinterface.AbstractMQConsumer;
 import org.apache.rocketmq.test.listener.AbstractListener;
 import org.apache.rocketmq.test.util.RandomUtil;
 
+/**
+ * 普通的消费者
+ */
 public class RMQNormalConsumer extends AbstractMQConsumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RMQNormalConsumer.class);

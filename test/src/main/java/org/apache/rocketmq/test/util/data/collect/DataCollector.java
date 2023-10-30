@@ -19,6 +19,9 @@ package org.apache.rocketmq.test.util.data.collect;
 
 import java.util.Collection;
 
+/**
+ * 数据存储的接口
+ */
 public interface DataCollector {
 
     void resetData();
