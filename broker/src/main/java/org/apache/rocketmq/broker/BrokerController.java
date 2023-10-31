@@ -280,6 +280,13 @@ public class BrokerController {
         this(brokerConfig, null, null, messageStoreConfig);
     }
 
+    /**
+     * 创建一个BrokerController
+     * @param brokerConfig broker的配置
+     * @param nettyServerConfig ？
+     * @param nettyClientConfig ？
+     * @param messageStoreConfig ？
+     */
     public BrokerController(
         final BrokerConfig brokerConfig,
         final NettyServerConfig nettyServerConfig,

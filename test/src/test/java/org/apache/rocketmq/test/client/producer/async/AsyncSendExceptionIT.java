@@ -37,11 +37,17 @@ import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
+/**
+ * - 额外的 topic 属性，每个 test case 有一个随机生成的 topic
+ */
 public class AsyncSendExceptionIT extends BaseConf {
     private static Logger logger = Logger.getLogger(TagMessageWith1ConsumerIT.class);
     private static boolean sendFail = false;
     private String topic = null;
 
+    /**
+     * 对每个test case，生成一个随机的topic
+     */
     @Before
     public void setUp() {
         topic = initTopic();

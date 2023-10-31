@@ -30,6 +30,11 @@ import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
+/**
+ * - 额外的 topic 属性，每个 test case 有一个随机生成的 topic
+ * <br>
+ * - 额外的 RMQNormalProducer，生产 topic 的消息
+ */
 public class BroadcastNormalMsgNotReceiveIT extends BaseBroadcast {
     private static Logger logger = Logger
         .getLogger(NormalMsgTwoSameGroupConsumerIT.class);

@@ -43,10 +43,13 @@ import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.test.util.MQAdminTestUtils;
 
+/**
+ * 集成测试基础
+ */
 public class IntegrationTestBase {
     public static InternalLogger logger = InternalLoggerFactory.getLogger(IntegrationTestBase.class);
 
-    protected static final String SEP = File.separator;
+    protected static final String SEP = File.separator; /* 分隔符 */
     protected static final String BROKER_NAME_PREFIX = "TestBrokerName_";
     protected static final AtomicInteger BROKER_INDEX = new AtomicInteger(0);
     protected static final List<File> TMPE_FILES = new ArrayList<>();
@@ -59,7 +62,7 @@ public class IntegrationTestBase {
     protected static Random random = new Random();
 
     static {
-
+        // 设置存储位置
         System.setProperty("rocketmq.client.logRoot", System.getProperty("java.io.tmpdir"));
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -95,6 +98,12 @@ public class IntegrationTestBase {
 
     }
 
+    /**
+     * 在临时空间创建存储用的文件夹
+     * <p>{tmp_folder} => System.getProperty("java.io.tmpdir")</p>
+     *
+     * @return "{tmp_folder}/unitteststore-{random_id}
+     */
     public static String createBaseDir() {
         String baseDir = System.getProperty("java.io.tmpdir") + SEP + "unitteststore-" + UUID.randomUUID();
         final File file = new File(baseDir);
@@ -106,8 +115,15 @@ public class IntegrationTestBase {
         return baseDir;
     }
 
+    /**
+     * 创建并启动一个namesrv
+     * <p>
+     * 监听0端口？
+     */
     public static NamesrvController createAndStartNamesrv() {
+        // 创建存储文件夹
         String baseDir = createBaseDir();
+        // 配置属性
         NamesrvConfig namesrvConfig = new NamesrvConfig();
         NettyServerConfig nameServerNettyServerConfig = new NettyServerConfig();
         namesrvConfig.setKvConfigPath(baseDir + SEP + "namesrv" + SEP + "kvConfig.json");
@@ -128,6 +144,12 @@ public class IntegrationTestBase {
 
     }
 
+    /**
+     * 创建并启动broker
+     *
+     * @param nsAddr NameServer Address
+     * @return BrokerController
+     */
     public static BrokerController createAndStartBroker(String nsAddr) {
         String baseDir = createBaseDir();
         BrokerConfig brokerConfig = new BrokerConfig();
@@ -148,6 +170,13 @@ public class IntegrationTestBase {
         return createAndStartBroker(storeConfig, brokerConfig);
     }
 
+    /**
+     * 创建并启动broker
+     *
+     * @param storeConfig  存储相关的配置
+     * @param brokerConfig broker自身的配置
+     * @return BrokerController
+     */
     public static BrokerController createAndStartBroker(MessageStoreConfig storeConfig, BrokerConfig brokerConfig) {
         NettyServerConfig nettyServerConfig = new NettyServerConfig();
         NettyClientConfig nettyClientConfig = new NettyClientConfig();

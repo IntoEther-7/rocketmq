@@ -23,6 +23,11 @@ import org.apache.rocketmq.test.client.rmq.RMQBroadCastConsumer;
 import org.apache.rocketmq.test.factory.ConsumerFactory;
 import org.apache.rocketmq.test.listener.AbstractListener;
 
+/**
+ * - 无任何额外的属性，对 BaseConf 环境下的测试
+ * <br>
+ * - 提供两个方法，产生 RMQBroadCastConsumer
+ */
 public class BaseBroadcast extends BaseConf {
     private static Logger logger = Logger.getLogger(BaseBroadcast.class);
 

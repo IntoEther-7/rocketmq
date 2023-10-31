@@ -50,6 +50,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * - 额外的 topic 属性，每个 test case 有一个随机生成的 topic
+ */
 public class BatchSendIT extends BaseConf {
     private static Logger logger = Logger.getLogger(TagMessageWith1ConsumerIT.class);
     private String topic = null;

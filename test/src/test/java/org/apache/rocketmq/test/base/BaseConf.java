@@ -56,29 +56,86 @@ import org.slf4j.LoggerFactory;
 
 import static org.awaitility.Awaitility.await;
 
+/**
+ * 基础环境配置，一个namesrv，三个broker。
+ * <br>
+ * 没有任何测试case。
+ * <br>
+ * 有非常多的子类，应该是不同的环境配置。
+ * <br>
+ * 非常多的属性，这些属性都是protected以上的，会被子类继承到。
+ * <br>
+ * 父类加载后，父类静态代码块执行，初始化这些属性。
+ * <br>
+ * 子类继承了父类的属性，在子类加载后，子类同样要运行父类的静态代码，初始化这些属性。
+ */
 public class BaseConf {
+    /**
+     * 本地地址，本地起环境
+     * <p>
+     * 127.0.0.1:x
+     */
     public final static String nsAddr;
+
+    /**
+     * broker名字
+     */
     protected final static String broker1Name;
+    /**
+     * broker名字
+     */
     protected final static String broker2Name;
+    /**
+     * broker名字
+     */
     //the logic queue test need at least three brokers
     protected final static String broker3Name;
+    /**
+     * 集群名字
+     */
     protected final static String clusterName;
+    /**
+     * broker数量
+     */
     protected final static int brokerNum;
     protected final static int waitTime = 5;
     protected final static int consumeTime = 2 * 60 * 1000;
     protected final static int QUEUE_NUMBERS = 8;
+    /**
+     * NameServer
+     */
     protected final static NamesrvController namesrvController;
+    /**
+     * 一个集群至少三个Broker，第一个
+     */
     protected final static BrokerController brokerController1;
+    /**
+     * 一个集群至少三个Broker，第二个
+     */
     protected final static BrokerController brokerController2;
+    /**
+     * 一个集群至少三个Broker，第三个
+     */
     protected final static BrokerController brokerController3;
+    /**
+     * Broker列表
+     */
     protected final static List<BrokerController> brokerControllerList;
+    /**
+     * Broker name Map
+     */
     protected final static Map<String, BrokerController> brokerControllerMap;
+    /**
+     * 用于记录有多少个客户端，向外展示，shutdown时，先copy一份，清空这个属性，然后再根据copy的列表依次shutdown
+     */
     protected final static List<Object> mqClients = new ArrayList<Object>();
     protected final static boolean debug = false;
     private final static Logger log = LoggerFactory.getLogger(BaseConf.class);
 
     static {
+        // 在JVM中设置全局变量：版本号
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
+        // 创建并启动一个namesrv
         namesrvController = IntegrationTestBase.createAndStartNamesrv();
         nsAddr = "127.0.0.1:" + namesrvController.getNettyServerConfig().getListenPort();
         log.debug("Name server started, listening: {}", nsAddr);
@@ -110,7 +167,8 @@ public class BaseConf {
     }
 
     // This method can't be placed in the static block of BaseConf, which seems to lead to a strange dead lock.
-    public static void waitBrokerRegistered(final String nsAddr, final String clusterName, final int expectedBrokerNum) {
+    public static void waitBrokerRegistered(final String nsAddr, final String clusterName,
+        final int expectedBrokerNum) {
         final DefaultMQAdminExt mqAdminExt = new DefaultMQAdminExt(500);
         mqAdminExt.setNamesrvAddr(nsAddr);
         try {
@@ -124,7 +182,7 @@ public class BaseConf {
                 }
                 return brokerDatas.size() == expectedBrokerNum;
             });
-            for (BrokerController brokerController: brokerControllerList) {
+            for (BrokerController brokerController : brokerControllerList) {
                 brokerController.getBrokerOuterAPI().refreshMetadata();
             }
         } catch (Exception e) {
@@ -138,7 +196,7 @@ public class BaseConf {
         long start = System.currentTimeMillis();
         while (System.currentTimeMillis() - start <= timeMs) {
             boolean allOk = true;
-            for (BrokerController brokerController: brokerControllerList) {
+            for (BrokerController brokerController : brokerControllerList) {
                 if (brokerController.getMessageStore().dispatchBehindBytes() != 0) {
                     allOk = false;
                     break;
@@ -152,7 +210,9 @@ public class BaseConf {
         return false;
     }
 
-
+    /**
+     * 随机生成一个topic，16字符
+     */
     public static String initTopic() {
         String topic = MQRandomUtils.getRandomTopic();
         return initTopicWithName(topic);
@@ -188,7 +248,8 @@ public class BaseConf {
         return topicName;
     }
 
-    public static String initTopicOnSampleTopicBroker(String topicName, String sampleTopic, TopicMessageType topicMessageType) {
+    public static String initTopicOnSampleTopicBroker(String topicName, String sampleTopic,
+        TopicMessageType topicMessageType) {
         IntegrationTestBase.initTopic(topicName, nsAddr, sampleTopic, topicMessageType);
         return topicName;
     }
@@ -211,7 +272,6 @@ public class BaseConf {
         return mqAdminExt;
     }
 
-
     public static RMQNormalProducer getProducer(String nsAddr, String topic) {
         return getProducer(nsAddr, topic, false);
     }
@@ -225,7 +285,8 @@ public class BaseConf {
         return producer;
     }
 
-    public static RMQTransactionalProducer getTransactionalProducer(String nsAddr, String topic, TransactionListener transactionListener) {
+    public static RMQTransactionalProducer getTransactionalProducer(String nsAddr, String topic,
+        TransactionListener transactionListener) {
         RMQTransactionalProducer producer = new RMQTransactionalProducer(nsAddr, topic, false, transactionListener);
         if (debug) {
             producer.setDebug();
@@ -235,9 +296,9 @@ public class BaseConf {
     }
 
     public static RMQNormalProducer getProducer(String nsAddr, String topic, String producerGoup,
-                                                String instanceName) {
+        String instanceName) {
         RMQNormalProducer producer = new RMQNormalProducer(nsAddr, topic, producerGoup,
-                instanceName);
+            instanceName);
         if (debug) {
             producer.setDebug();
         }
@@ -255,31 +316,31 @@ public class BaseConf {
     }
 
     public static RMQNormalConsumer getConsumer(String nsAddr, String topic, String subExpression,
-                                                AbstractListener listener) {
+        AbstractListener listener) {
         return getConsumer(nsAddr, topic, subExpression, listener, false);
     }
 
     public static RMQNormalConsumer getConsumer(String nsAddr, String topic, String subExpression,
-                                                AbstractListener listener, boolean useTLS) {
+        AbstractListener listener, boolean useTLS) {
         String consumerGroup = initConsumerGroup();
         return getConsumer(nsAddr, consumerGroup, topic, subExpression, listener, useTLS);
     }
 
     public static RMQNormalConsumer getConsumer(String nsAddr, String consumerGroup, String topic,
-                                                String subExpression, AbstractListener listener) {
+        String subExpression, AbstractListener listener) {
         return getConsumer(nsAddr, consumerGroup, topic, subExpression, listener, false);
     }
 
     public static RMQNormalConsumer getConsumer(String nsAddr, String consumerGroup, String topic,
-                                                String subExpression, AbstractListener listener, boolean useTLS) {
+        String subExpression, AbstractListener listener, boolean useTLS) {
         RMQNormalConsumer consumer = ConsumerFactory.getRMQNormalConsumer(nsAddr, consumerGroup,
-                topic, subExpression, listener, useTLS);
+            topic, subExpression, listener, useTLS);
         if (debug) {
             consumer.setDebug();
         }
         mqClients.add(consumer);
         log.info(String.format("consumer[%s] start,topic[%s],subExpression[%s]", consumerGroup,
-                topic, subExpression));
+            topic, subExpression));
         return consumer;
     }
 

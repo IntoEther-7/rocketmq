@@ -113,6 +113,19 @@ import static org.apache.rocketmq.proxy.config.ConfigurationManager.RMQ_PROXY_HO
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
+/**
+ * - 额外的 port 属性
+ * <p>
+ * - 额外的 GrpcCleanupRule 属性
+ * <p>
+ * - 额外的 MessagingServiceGrpc.MessagingServiceBlockingStub
+ * <p>
+ * - 额外的 MessagingServiceGrpc.MessagingServiceStub
+ * <p>
+ * - 额外的 Metadata
+ * <p>
+ * - 额外的 DEFAULT_QUEUE_NUMS
+ */
 public class GrpcBaseIT extends BaseConf {
 
     /**

@@ -100,6 +100,9 @@ public class NamesrvController {
         this.configuration.setStorePathFromConfig(this.namesrvConfig, "configStorePath");
     }
 
+    /**
+     * 初始化namesrv的核心代码
+     */
     public boolean initialize() {
         loadConfig();
         initiateNetworkComponents();
